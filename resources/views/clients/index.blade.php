@@ -1,11 +1,22 @@
 @extends('layouts.app')
 
+@section('title', 'Clientes')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        @include('partials.sidebar')
+        <div class="col-md-9">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header clearfix">
+                    <a href="{{ route('clients.create') }}" class="btn btn-primary float-left" role="button" aria-pressed="true">Nuevo</a>
+                    <div class="input-group col-md-4 px-0 float-right">                        
+                        <form class="form-inline my-lg-0" method="get" action="{{ route('clients.index') }}">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." name="buscar">
+                            <button class="btn btn-primary my-sm-0" type="submit">Buscar</button>
+                        </form>
+                    </div>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -21,12 +32,8 @@
                         <thead>
                             <tr>
                                 <td>ID</td>
-                                <td>Nombres</td>
-                                <td>Apellidos</td>
-                                <td>Cargo</td>
+                                <td>Cliente</td>
                                 <td>Empresa</td>
-                                <td>Teléfono</td>
-                                <td>Email</td>
                                 <td>Acciones</td>
                             </tr>
                         </thead>
@@ -34,26 +41,46 @@
                         @foreach($clients as $key => $value)
                             <tr>
                                 <td>{{ $value->id }}</td>
-                                <td>{{ $value->name }}</td>
-                                <td>{{ $value->lastname }}</td>
-                                <td>{{ $value->position }}</td>
+                                <td>{{ $value->name }} {{ $value->lastname }}</td>
                                 <td>{{ $value->company }}</td>
-                                <td>{{ $value->phone }}</td>
-                                <td>{{ $value->email }}</td>
                                 <td>
                                     <a class="btn btn-small btn-success" href="{{ route('clients.show', $value) }}">Ver</a>
                                     <a class="btn btn-small btn-info" href="{{ route('clients.edit', $value) }}">Editar</a>
-                                    <form action="{{ route('clients.destroy', $value) }}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                        <button class="btn btn-small btn-danger" type="submit">Eliminar</button>
-                                    </form>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $value->id }}">
+                                        Eliminar
+                                    </button>
                                 </td>
-                            </tr>
+                            </tr>                            
                         @endforeach
-                        </tbody>
+                        </tbody>                        
                     </table>
-
+                    {{ $clients->links() }}
+                    @foreach($clients as $key => $value)
+                        <!-- deleteModal -->
+                        <div class="modal fade" id="deleteModal{{ $value->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Esta seguro que desea eliminar este elemento?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form action="{{ route('clients.destroy', $value) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                            <button class="btn btn-small btn-danger" type="submit">Eliminar</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

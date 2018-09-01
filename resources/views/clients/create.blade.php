@@ -1,9 +1,12 @@
 @extends('layouts.app')
 
+@section('title', 'Clientes')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        @include('partials.sidebar')
+        <div class="col-md-9">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -19,7 +22,10 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="name">Nombre</label>
-                                <input type="text" name="name" class="form-control @if ($errors->has('name')) is-invalid @endif">
+                                <input type="text" name="name" class="form-control @if ($errors->has('name')) is-invalid @endif" required>
+                                <div class="invalid-feedback">
+                                    Introduce tu nombre
+                                </div>
                                 @if ($errors->has('name'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('name') }}

@@ -14,4 +14,22 @@ class Client extends Model
     protected $fillable = [
         'name','lastname','position','company','phone','email',
     ];
+
+     /**
+     * Scope a query to search clients.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSearch($query, $search)
+    {
+        if (trim($search) != "") {
+        	return $query->where('id', $search)
+        		->orWhere('name', 'LIKE', '%'.$search.'%')
+        		->orWhere('lastname', 'LIKE', '%'.$search.'%')
+        		->orWhere('email', 'LIKE', '%'.$search.'%')
+        		->orWhere('company', 'LIKE', '%'.$search.'%')
+        		->orWhere('position', 'LIKE', '%'.$search.'%');
+        }
+    }
 }

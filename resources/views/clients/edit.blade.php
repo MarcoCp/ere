@@ -1,9 +1,12 @@
 @extends('layouts.app')
 
+@section('title', 'Clientes')
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        @include('partials.sidebar')
+        <div class="col-md-9">
             <div class="card">
                 <div class="card-header">Dashboard</div>
 
@@ -41,7 +44,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="phone">Teléfono</label>
-                                <input type="number" name="phone" class="form-control" value="{{ old('name', $clients->phone) }}">
+                                <input type="text" name="phone" class="form-control" value="{{ old('name', $clients->phone) }}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="email">Email</label>

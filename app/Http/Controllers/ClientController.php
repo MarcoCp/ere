@@ -23,14 +23,14 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // Obtener todos los Clientes
-        $clients = Client::all();
+        $clients = Client::search($request->get('buscar'))->paginate(10);
 
         // Cargar la vista y pasar los Clientes
         return view('clients.index')
-            ->with(['clients' => $clients]);
+            ->with('clients', $clients);
     }
 
     /**
@@ -61,7 +61,8 @@ class ClientController extends Controller
             'email' => request()->email,
         ]);
 
-        return redirect()->route('clients.index')->with('status', 'Nuevo cliente creado');
+        return redirect()->route('clients.index')
+            ->with('status', 'Nuevo cliente creado');
     }
 
     /**
@@ -101,7 +102,8 @@ class ClientController extends Controller
     {
         $client->update(request()->all());
 
-        return redirect()->route('clients.index')->with('status', 'Edicion realizada');
+        return redirect()->route('clients.index')
+            ->with('status', 'Edicion realizada');
     }
 
     /**
@@ -114,6 +116,7 @@ class ClientController extends Controller
     {
         $client->delete();
 
-        return redirect()->route('clients.index')->with('status', 'Cliente Eliminado');
+        return redirect()->route('clients.index')
+            ->with('status', 'Cliente Eliminado');
     }
 }
