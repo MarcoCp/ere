@@ -12,9 +12,14 @@ class QuoteDetailsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // Obtener todos los Clientes
+        $quotedetails = QuoteDetails::search($request->get('buscar'))->paginate(10);
+
+        // Cargar la vista y pasar los Clientes
+        return view('quotedetails.index')
+            ->with('quotedetails', $quotedetails);
     }
 
     /**
@@ -24,7 +29,8 @@ class QuoteDetailsController extends Controller
      */
     public function create()
     {
-        //
+        // Carga la vista para crear un Cliente
+        return view('quotedetails.create');//
     }
 
     /**
@@ -35,7 +41,18 @@ class QuoteDetailsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Crear registro en base de datos con Eloquent
+        QuoteDetails::create([
+            'category' => request()->category,
+            'name' => request()->name,
+            'duration' => request()->duration,
+            'pricehour' => request()->pricehour,
+            'price' => request()->price
+        ]);
+
+        //Retornar a la vista principal
+        return redirect()->route('quotedetails.index')
+            ->with('status', 'Nuevo detalle creado');
     }
 
     /**
@@ -46,7 +63,10 @@ class QuoteDetailsController extends Controller
      */
     public function show(QuoteDetails $quoteDetails)
     {
-        //
+        $quotedetails = QuoteDetails::find($quoteDetails);
+
+        return view('quotedetails.show')
+            ->with(['quotedetails' => $quotedetails]);
     }
 
     /**
@@ -57,7 +77,8 @@ class QuoteDetailsController extends Controller
      */
     public function edit(QuoteDetails $quoteDetails)
     {
-        //
+        return view('quotedetails.edit')
+            ->with(['quotedetails' => $quoteDetails]);
     }
 
     /**
@@ -69,7 +90,10 @@ class QuoteDetailsController extends Controller
      */
     public function update(Request $request, QuoteDetails $quoteDetails)
     {
-        //
+        $quoteDetails->update(request()->all());
+
+        return redirect()->route('quotedetails.index')
+            ->with('status', 'Edicion realizada');
     }
 
     /**
@@ -80,6 +104,9 @@ class QuoteDetailsController extends Controller
      */
     public function destroy(QuoteDetails $quoteDetails)
     {
-        //
+        $quoteDetails->delete();
+
+        return redirect()->route('quotedetails.index')
+            ->with('status', 'Detalle Eliminado');
     }
 }

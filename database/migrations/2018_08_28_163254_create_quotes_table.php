@@ -18,8 +18,6 @@ class CreateQuotesTable extends Migration
             $table->timestamps();
             $table->unsignedInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients');
-            $table->unsignedInteger('quote_details_id');
-            $table-> foreign('quote_details_id')->references('id')->on('quote_details');
             $table->date('date');
             $table->string('project');
             $table->decimal('budget');

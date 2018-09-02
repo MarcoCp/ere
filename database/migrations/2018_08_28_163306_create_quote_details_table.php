@@ -16,6 +16,8 @@ class CreateQuoteDetailsTable extends Migration
         Schema::create('quote_details', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->unsignedInteger('quote_id');
+            $table-> foreign('quote_id')->references('id')->on('quotes');
             $table->string('category');
             $table->string('name');
             $table->decimal('duration');

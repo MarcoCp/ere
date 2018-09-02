@@ -52,6 +52,7 @@ class ClientController extends Controller
      */
     public function store(ClientCreateRequest $request)
     {
+        //Crear registro en base de datos con Eloquent
         Client::create([
             'name' => request()->name,
             'lastname' => request()->lastname,
@@ -61,6 +62,7 @@ class ClientController extends Controller
             'email' => request()->email,
         ]);
 
+        //Retornar a la vista principal
         return redirect()->route('clients.index')
             ->with('status', 'Nuevo cliente creado');
     }
