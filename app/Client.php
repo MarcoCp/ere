@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Quote;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
@@ -15,12 +16,20 @@ class Client extends Model
         'name','lastname','position','company','phone','email',
     ];
 
-     /**
-     * Scope a query to search clients.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+    /**
+     * Obtiene los cotizaciones de los clientes.
      */
+    public function quotes()
+    {
+        return $this->hasMany('App\Quote');
+    }
+
+    /**
+    * Scope a query to search clients.
+    *
+    * @param \Illuminate\Database\Eloquent\Builder $query
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
     public function scopeSearch($query, $search)
     {
         if (trim($search) != "") {

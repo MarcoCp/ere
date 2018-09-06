@@ -36,19 +36,19 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="position">Cargo</label>
-                                <input type="text" name="position" class="form-control" value="{{ old('name', $clients->position) }}">
+                                <input type="text" name="position" class="form-control" value="{{ old('position', $clients->position) }}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="company">Empresa</label>
-                                <input type="text" name="company" class="form-control" value="{{ old('name', $clients->company) }}">
+                                <input type="text" name="company" class="form-control" value="{{ old('company', $clients->company) }}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="phone">Teléfono</label>
-                                <input type="text" name="phone" class="form-control" value="{{ old('name', $clients->phone) }}">
+                                <input type="text" name="phone" class="form-control" value="{{ old('phone', $clients->phone) }}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" value="{{ old('name', $clients->email) }}">
+                                <input type="email" name="email" class="form-control" value="{{ old('email', $clients->email) }}">
                             </div>
                             <button type="submit" class="btn btn-primary">Enviar</button>                            
                         </div>

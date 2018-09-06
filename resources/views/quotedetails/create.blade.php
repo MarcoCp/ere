@@ -21,6 +21,15 @@
                         @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
+                                <label for="quote_id">Proyecto</label>
+                                <select name="quote_id" class="form-control">
+                                    <option selected>Escojer...</option>
+                                    @foreach ($quote as $key => $value)
+                                        <option value="{{ $value->id }}">{{ $value->project }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
                                 <label for="name">Nombre</label>
                                 <input type="text" name="name" class="form-control @if ($errors->has('name')) is-invalid @endif" required>
                                 <div class="invalid-feedback">
@@ -38,19 +47,29 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="position">Duración Horas</label>
-                                <input type="number" name="duration" class="form-control">
+                                <input type="number" name="duration" class="form-control" onkeyup="total()">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="company">Precio Hora</label>
-                                <input type="text" name="pricehour" class="form-control">
+                                <input type="text" name="pricehour" class="form-control" onkeyup="total()">
                             </div>
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-md-6">
                                 <label for="phone">Precio</label>
-                                <input type="number" name="price" class="form-control">
+                                <input type="number" name="price" class="form-control" readonly>
                             </div>
                             <button type="submit" class="btn btn-primary">Enviar</button>                            
                         </div>
                     </form>
+
+                    <script type="text/javascript">
+                        function total() {
+                                var duration = parseInt($('input[name=duration]').val())
+                                var pricehour = parseInt($('input[name=pricehour]').val())
+                                var total = duration * pricehour                                
+
+                                $('input[name=price]').val(total)                                
+                            }    
+                    </script>
 
                 </div>
             </div>

@@ -26,7 +26,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         // Obtener todos los Clientes
-        $clients = Client::search($request->get('buscar'))->paginate(10);
+        $clients = Client::orderBy('id', 'desc')->search($request->get('buscar'))->paginate(10);
 
         // Cargar la vista y pasar los Clientes
         return view('clients.index')
@@ -75,7 +75,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $clients = Client::find($client);
+        $clients = Client::find($client)->orderBy('id', 'desc');
 
         return view('clients.show')
             ->with(['clients' => $clients]);

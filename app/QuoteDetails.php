@@ -12,15 +12,23 @@ class QuoteDetails extends Model
      * @var array
      */
     protected $fillable = [
-        'category','name','duration','pricehour','price',
+        'quote_id','category','name','duration','pricehour','price',
     ];
 
-     /**
-     * Scope a query to search quote details.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+    /**
+     * Obtiene las cotizaciones de los detalles.
      */
+    public function quote()
+    {
+        return $this->belongsTo('App\Quote');
+    }
+
+    /**
+    * Scope a query to search quote details.
+    *
+    * @param \Illuminate\Database\Eloquent\Builder $query
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
     public function scopeSearch($query, $search)
     {
         if (trim($search) != "") {

@@ -9,10 +9,10 @@
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header clearfix">
-                    <a href="{{ route('clients.create') }}" class="btn btn-primary float-left" role="button" aria-pressed="true">Nuevo</a>
+                    <a href="{{ route('quotes.create') }}" class="btn btn-primary float-left" role="button" aria-pressed="true">Nuevo</a>
                     <div class="input-group col-md-4 px-0 float-right">                        
-                        <form class="form-inline my-lg-0" method="get" action="{{ route('clients.index') }}">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." name="buscar">
+                        <form class="form-inline my-lg-0" method="get" action="{{ route('quotes.index') }}">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." name="buscar" value="{{ request()->input('buscar') }}">
                             <button class="btn btn-primary my-sm-0" type="submit">Buscar</button>
                         </form>
                     </div>
@@ -32,22 +32,26 @@
                         <thead>
                             <tr>
                                 <td>ID</td>
+                                <td>Proyecto</td>
+                                <td>Fecha</td>
                                 <td>Cliente</td>
-                                <td>Empresa</td>
+                                <td>Presupuesto</td>
                                 <td>Acciones</td>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($clients as $key => $value)
+                        @foreach($quote as $key => $value)
                             <tr>
                                 <td>{{ $value->id }}</td>
-                                <td>{{ $value->name }} {{ $value->lastname }}</td>
-                                <td>{{ $value->company }}</td>
+                                <td>{{ $value->project }}</td>
+                                <td>{{ $value->date }}</td>
+                                <td>{{ $value->client->name }} {{ $value->client->lastname }}</td>
+                                <td>{{ $value->budget }}</td>
                                 <td>
-                                    <a class="btn btn-small btn-success" href="{{ route('clients.show', $value) }}">
+                                    <a class="btn btn-small btn-success" href="{{ route('quotes.show', $value) }}">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a class="btn btn-small btn-info" href="{{ route('clients.edit', $value) }}">
+                                    <a class="btn btn-small btn-info" href="{{ route('quotes.edit', $value) }}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $value->id }}">
@@ -58,8 +62,8 @@
                         @endforeach
                         </tbody>                        
                     </table>
-                    {{ $clients->appends(request()->input())->links() }}
-                    @foreach($clients as $key => $value)
+                    {{ $quote->appends(request()->input())->links() }}
+                    @foreach($quote as $key => $value)
                         <!-- deleteModal -->
                         <div class="modal fade" id="deleteModal{{ $value->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -74,7 +78,7 @@
                                         ¿Esta seguro que desea eliminar este elemento?
                                     </div>
                                     <div class="modal-footer">
-                                        <form action="{{ route('clients.destroy', $value) }}" method="POST">
+                                        <form action="{{ route('quotes.destroy', $value) }}" method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

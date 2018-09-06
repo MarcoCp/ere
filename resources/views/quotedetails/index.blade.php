@@ -32,8 +32,12 @@
                         <thead>
                             <tr>
                                 <td>ID</td>
-                                <td>Cliente</td>
+                                <td>Proyecto</td>
                                 <td>Categoría</td>
+                                <td>Detalle</td>
+                                <td>Duración</td>
+                                <td>Precio x Hora</td>
+                                <td>Precio</td>
                                 <td>Acciones</td>
                             </tr>
                         </thead>
@@ -41,20 +45,28 @@
                         @foreach($quotedetails as $key => $value)
                             <tr>
                                 <td>{{ $value->id }}</td>
-                                <td>{{ $value->name }} {{ $value->lastname }}</td>
+                                <td>{{ $value->quote->project }}</td>
                                 <td>{{ $value->category }}</td>
+                                <td>{{ $value->name }}</td>
+                                <td>{{ $value->duration }}</td>
+                                <td>{{ $value->pricehour }}</td>
+                                <td>{{ $value->price }}</td>
                                 <td>
-                                    <a class="btn btn-small btn-success" href="{{ route('quotedetails.show', $value) }}">Ver</a>
-                                    <a class="btn btn-small btn-info" href="{{ route('quotedetails.edit', $value) }}">Editar</a>
+                                    <a class="btn btn-small btn-success" href="{{ route('quotedetails.show', $value) }}">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-small btn-info" href="{{ route('quotedetails.edit', $value) }}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ $value->id }}">
-                                        Eliminar
+                                        <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>                            
                         @endforeach
                         </tbody>                        
                     </table>
-                    {{ $quotedetails->links() }}
+                    {{ $quotedetails->appends(request()->input())->links() }}
                     @foreach($quotedetails as $key => $value)
                         <!-- deleteModal -->
                         <div class="modal fade" id="deleteModal{{ $value->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

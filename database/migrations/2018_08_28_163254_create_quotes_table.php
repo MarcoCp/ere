@@ -16,6 +16,8 @@ class CreateQuotesTable extends Migration
         Schema::create('quotes', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->date('date');

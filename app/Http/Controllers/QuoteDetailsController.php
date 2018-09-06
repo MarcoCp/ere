@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\QuoteDetails;
+use App\Quote;
 use Illuminate\Http\Request;
 
 class QuoteDetailsController extends Controller
@@ -15,7 +16,7 @@ class QuoteDetailsController extends Controller
     public function index(Request $request)
     {
         // Obtener todos los Clientes
-        $quotedetails = QuoteDetails::search($request->get('buscar'))->paginate(10);
+        $quotedetails = QuoteDetails::orderBy('id', 'desc')->search($request->get('buscar'))->paginate(10);
 
         // Cargar la vista y pasar los Clientes
         return view('quotedetails.index')
@@ -29,8 +30,11 @@ class QuoteDetailsController extends Controller
      */
     public function create()
     {
+        $quote = Quote::orderBy('id', 'desc')->get();
+
         // Carga la vista para crear un Cliente
-        return view('quotedetails.create');//
+        return view('quotedetails.create')
+            ->with('quote', $quote);
     }
 
     /**
@@ -43,6 +47,7 @@ class QuoteDetailsController extends Controller
     {
         //Crear registro en base de datos con Eloquent
         QuoteDetails::create([
+            'quote_id' => request()->quote_id,
             'category' => request()->category,
             'name' => request()->name,
             'duration' => request()->duration,
@@ -63,7 +68,7 @@ class QuoteDetailsController extends Controller
      */
     public function show(QuoteDetails $quoteDetails)
     {
-        $quotedetails = QuoteDetails::find($quoteDetails);
+        $quotedetails = QuoteDetails::find($quoteDetails)->orderBy('id', 'desc');
 
         return view('quotedetails.show')
             ->with(['quotedetails' => $quotedetails]);
@@ -77,8 +82,11 @@ class QuoteDetailsController extends Controller
      */
     public function edit(QuoteDetails $quoteDetails)
     {
+        $quote = Quote::orderBy('id', 'desc')->get();
+
         return view('quotedetails.edit')
-            ->with(['quotedetails' => $quoteDetails]);
+            ->with('quotedetails', $quoteDetails)
+            ->with('quote', $quote);
     }
 
     /**
